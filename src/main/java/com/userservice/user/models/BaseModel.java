@@ -15,15 +15,15 @@ import java.util.Date;
 @MappedSuperclass
 //it allows u to automatically populate certain field in your JPA entities
 //such as creation date, modification date, created by, and modified by
-@EntityListeners(AuditingEntityListener.class)
+//@EntityListeners(AuditingEntityListener.class)
 public class BaseModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long   id;
-    @CreatedDate
-    @Column(name = "created_date")
-    private Date createdAt;
-    @LastModifiedDate
-    @Column(name = "last_modified_date")
-    private Date lastModifiedAt;
+//    @CreatedDate
+//    @Column(name = "created_date")
+//    private Date createdAt;
+//    @LastModifiedDate
+//    @Column(name = "last_modified_date")
+//    private Date lastModifiedAt;
 }

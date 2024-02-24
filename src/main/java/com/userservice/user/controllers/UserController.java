@@ -1,20 +1,15 @@
 package com.userservice.user.controllers;
 
-import com.userservice.user.controllers.Dto.ResponseStatus;
-import com.userservice.user.controllers.Dto.UserRequestDto;
+import com.userservice.user.controllers.Dto.SetUserRolesRequestDto;
 import com.userservice.user.controllers.Dto.UserResponseDto;
-import com.userservice.user.models.User;
 import com.userservice.user.services.IUserService;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.transform.OutputKeys;
-import java.util.Optional;
-
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     private IUserService userService;
     @Autowired
@@ -22,6 +17,21 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDto> getUserDetails(@PathVariable("id") Long userId){
+        UserResponseDto userResponseDto = userService.getUserDetails(userId);
+        return  new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+    }
+
+    @PostMapping("/{id}/roles")
+    public ResponseEntity<UserResponseDto> setUserRoles(@PathVariable("id") Long userId,
+                                                        @RequestBody SetUserRolesRequestDto request ){
+        UserResponseDto userResponseDto = userService.setUserRoles(userId,request.getRoleIds());
+        return new ResponseEntity<>(userResponseDto,HttpStatus.OK);
+    }
+
+
+/*
     @PostMapping("/saveUserDetail")
     public ResponseEntity<UserResponseDto> saveUserDetail(@RequestBody UserRequestDto userRequestDto){
         UserResponseDto userResponseDto = new UserResponseDto();
@@ -50,4 +60,6 @@ public class UserController {
        return user;
 
     }
+
+ */
 }
