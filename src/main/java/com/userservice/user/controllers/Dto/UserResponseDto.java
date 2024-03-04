@@ -5,7 +5,9 @@ import com.userservice.user.models.User;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -14,13 +16,14 @@ public class UserResponseDto {
 //    private  ResponseStatus responseStatus;
 //    private Long userId;
     private String email;
-    private Set<Role>roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<>();
 
     //create a deep copy from existing user
     public static UserResponseDto from (User user){
         UserResponseDto userResponseDto = new UserResponseDto();
         userResponseDto.setEmail(user.getEmail());
         //set other values when required
+        userResponseDto.setRoles(user.getRoles());
         return  userResponseDto;
     }
 

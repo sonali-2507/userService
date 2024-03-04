@@ -29,7 +29,7 @@ public class UserService implements IUserService{
     }
     public UserResponseDto setUserRoles(Long userId, List<Long>roleIds){
         Optional<User>userOptional = userRepository.findById(userId);
-        List<Role>roles = roleRepository.findAllByIdIn(roleIds);
+        Set<Role>roles = roleRepository.findAllByIdIn(roleIds);
 
         if(userOptional.isEmpty()){
             return  null;

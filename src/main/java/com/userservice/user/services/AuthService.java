@@ -1,9 +1,11 @@
 package com.userservice.user.services;
 
 import com.userservice.user.controllers.Dto.UserResponseDto;
+import com.userservice.user.models.Role;
 import com.userservice.user.models.Session;
 import com.userservice.user.models.SessionStatus;
 import com.userservice.user.models.User;
+import com.userservice.user.repositories.RoleRepository;
 import com.userservice.user.repositories.SessionRepository;
 import com.userservice.user.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
@@ -22,22 +24,25 @@ import org.springframework.util.MultiValueMapAdapter;
 
 import javax.crypto.SecretKey;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
 @Service
 public class AuthService implements IAuthService{
     private UserRepository userRepository;
     private SessionRepository sessionRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private SecretKey secretKey;
+    private RoleRepository roleRepository;
 
-    public AuthService(UserRepository userRepository, SessionRepository sessionRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public AuthService(UserRepository userRepository,
+                       SessionRepository sessionRepository,
+                       BCryptPasswordEncoder bCryptPasswordEncoder,
+                       RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         secretKey = Jwts.SIG.HS256.key().build();
+        this.roleRepository = roleRepository;
     }
     // Note: This method should return a custom object containing token, headers, etc
     // For now, to avoid creating an object, directly returning ResponseEntity from here
@@ -88,11 +93,18 @@ public class AuthService implements IAuthService{
     }
 
     @Override
-    public UserResponseDto signUp(String email, String password) {
+    public UserResponseDto signUp(String email, String password, Set<Role> roles) {
         User user = new User();
         user.setEmail(email);
         user.setPassword(bCryptPasswordEncoder.encode(password));
+        for(Role role:roles){
+            roleRepository.save(role);
+        }
+
+        user.setRoles(new HashSet<>(roles));
+
         User savedUser = userRepository.save(user);
+
         return UserResponseDto.from(savedUser);
     }
 
