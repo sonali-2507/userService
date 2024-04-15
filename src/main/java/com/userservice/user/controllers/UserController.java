@@ -19,7 +19,9 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDto> getUserDetails(@PathVariable("id") Long userId){
-        UserResponseDto userResponseDto = userService.getUserDetails(userId);
+        UserResponseDto userResponseDto = new UserResponseDto();
+        userResponseDto.setEmail("test@test.com");
+//        UserResponseDto userResponseDto = userService.getUserDetails(userId);
         return  new ResponseEntity<>(userResponseDto, HttpStatus.OK);
     }
 

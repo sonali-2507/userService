@@ -20,9 +20,11 @@ public class User extends  BaseModel {
 //    private String name;
     private String email;
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Role> roles = new HashSet<>() ;
 //    private UUID passwordUuid;
 
 }
+
+//@OneToOne(cascade = {CascadeType.REMOVE, CascadeType.PERSIST})

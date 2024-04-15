@@ -12,6 +12,6 @@ import java.util.Set;
 public interface IAuthService {
     ResponseEntity<UserResponseDto> login(String email, String password);
     void logout(String token, Long userId);
-    UserResponseDto signUp(String email, String password, Set<Role> roles);
+    UserResponseDto signUp(String email, String password);
     SessionStatus validate(Long userId,String token );
 }

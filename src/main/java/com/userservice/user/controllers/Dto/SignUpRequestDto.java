@@ -12,5 +12,5 @@ import java.util.Set;
 public class SignUpRequestDto {
     private String email;
     private String password;
-    private Set<Role> roles;
+//    private Set<Role> roles;
 }

@@ -29,13 +29,13 @@ public class UserService implements IUserService{
     }
     public UserResponseDto setUserRoles(Long userId, List<Long>roleIds){
         Optional<User>userOptional = userRepository.findById(userId);
-        Set<Role>roles = roleRepository.findAllByIdIn(roleIds);
+//        Set<Role>roles = roleRepository.findAllByIdIn(roleIds);
 
         if(userOptional.isEmpty()){
             return  null;
         }
         User user = userOptional.get();
-        user.setRoles(Set.copyOf(roles));
+//        user.setRoles(Set.copyOf(roles));
         User savedUser = userRepository.save(user);
         return  UserResponseDto.from(savedUser);
     }

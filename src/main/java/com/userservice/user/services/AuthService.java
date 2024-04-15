@@ -60,6 +60,7 @@ public class AuthService implements IAuthService{
         //jwt
         Map<String,Object> jwtData = new HashMap<>();
         jwtData.put("email",email);
+//        jwtData.put("roles",user.getRoles());
         jwtData.put("createdAt",new Date());
         jwtData.put("expiryAt",new Date(LocalDate.now().plusDays(3).toEpochDay()));
 
@@ -93,15 +94,15 @@ public class AuthService implements IAuthService{
     }
 
     @Override
-    public UserResponseDto signUp(String email, String password, Set<Role> roles) {
+    public UserResponseDto signUp(String email, String password) {
         User user = new User();
         user.setEmail(email);
         user.setPassword(bCryptPasswordEncoder.encode(password));
-        for(Role role:roles){
-            roleRepository.save(role);
-        }
+//        for(Role role:roles){
+//            roleRepository.save(role);
+//        }
 
-        user.setRoles(new HashSet<>(roles));
+//        user.setRoles(new HashSet<>(roles));
 
         User savedUser = userRepository.save(user);
 
@@ -131,6 +132,8 @@ public class AuthService implements IAuthService{
         }
         String email = (String) claimsJws.getPayload().get("email");
         Integer expiryAt = (Integer) claimsJws.getPayload().get("expiryAt");
+        Role role = (Role) claimsJws.getPayload().get("roles");
+//        System.out.println("Role: "+role);
 //        if(expiryAt.before(new Date())){
 //            return SessionStatus.ENDED;
 //        }
